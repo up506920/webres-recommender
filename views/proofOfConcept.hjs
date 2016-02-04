@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Location Recommender Test</title>
+  <link rel="stylesheet" href="/css/proofOfConcept.css" />
+</head>
+<body>
+<div id="simulate">
+  <label for="lat">Latitude Of User</label>
+  <input id="lat" value="50.798456"></input>
+  <label for="lon">Longitude Of User</label>
+  <input id="lon" value=" -1.090299"></input>
+  <label for="distance">Within Distance(km)</label>
+  <input id="distance" value="50"></input>
+  <label for="category">Category</label>
+  <select id="category">
+    <option id="Food" selected>Food</option>
+    <option id="Pub">Pub</option>
+</select>
+  <button id="simulate">Simulate</button>
+  </div>
+  <div id="results"></div>
+
+
+
+  <script src="/js/jquery-2.2.0.js"></script>
+  <script src="/js/proofOfConcept.js"></script>
+</body>
+
+</html>
