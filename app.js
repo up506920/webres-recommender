@@ -13,12 +13,9 @@ var express = require('express'),
 		api = require('./routes/api/index'),
 
 		Database = require("./local_modules/database"),
+		dbconf = require("./source/config/db.json");
 		db = new Database({
-			conn: {
-				  host: "127.0.0.1",
-				  user: "root",
-				  password: "root"
-			},
+			conn: dbconf.connection,
 			pathToSql: path.join(__dirname, "source", "sql")
 		});
 
