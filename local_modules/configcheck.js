@@ -1,7 +1,8 @@
 var fs = require("fs-extra"),
     path = require("path"),
     filesToCheck = [
-      "db.conf.json"
+      "db.conf.json",
+      "api.conf.json"
     ];
 module.exports = function configCheck (pathToConfig) {
   filesToCheck.map((filename) => {
