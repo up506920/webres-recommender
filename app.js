@@ -13,13 +13,19 @@ var express = require('express'),
 		api = require('./routes/api/index'),
 
 		Database = require("./local_modules/database"),
-		dbconf = require("./source/config/db.json");
-		db = new Database({
-			conn: dbconf.connection,
-			pathToSql: path.join(__dirname, "source", "sql")
-		});
+		configCheck = require("./local_modules/configcheck"),
+
+		dbconf, db;
 
 		app = express();
+
+configCheck(path.join(__dirname, "source", "config"));
+
+dbconf = require("./source/config/db.conf.json");
+db = new Database({
+	conn: dbconf.connection,
+	pathToSql: path.join(__dirname, "source", "sql")
+});
 
 fs.mkdirp(".session");
 db.init(() => {
