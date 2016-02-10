@@ -24,7 +24,6 @@ router.get('/yelptest', function(req, res, next) {
     }
 
     //yelpData = findById(data.businesses, val.placeName);
-      res.send(data);
   })
   .catch(function (err) {
     console.error(err);

@@ -12,7 +12,7 @@ var yelp = new Yelp({
 
 
 
-router.get('/', function(req, res, next) {
+router.get('/getrecommendations', function(req, res, next) {
   //Receive location coords from client
   var val = req.query;
   var yelpData;

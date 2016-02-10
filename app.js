@@ -11,6 +11,7 @@ var express = require('express'),
 		index = require('./routes/index'),
 		tests = require('./routes/testing'),
 		test2 = require('./routes/yelptesting'),
+		recommender = require('./routes/recommender'),
 		api = require('./routes/api/index'),
 
 		Database = require("./local_modules/database"),
@@ -63,6 +64,7 @@ db.init(() => {
 	app.use('/test', tests);
 	app.use('/api', api);
 	app.use('/test', test2);
+	app.use('/api', getrecommendations);
 
 	// catch 404 and forward to error handler
 	app.use(function(req, res, next) {
