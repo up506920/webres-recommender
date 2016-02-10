@@ -7,10 +7,12 @@ var express = require('express'),
 		session = require('express-session'),
 		SQLiteStore = require('connect-sqlite3')(session),
 		fs = require("fs-extra"),
+		passport = require("passport"),
+		FoursquareStrategy = require("passport-foursquare").Strategy,
 
 		index = require('./routes/index'),
 		tests = require('./routes/testing'),
-		api = require('./routes/api/index'),
+		api = require('./routes/api/index')(passport),
 
 		Database = require("./local_modules/database"),
 		configCheck = require("./local_modules/configcheck"),
@@ -22,10 +24,38 @@ var express = require('express'),
 configCheck(path.join(__dirname, "source", "config"));
 
 dbconf = require("./source/config/db.conf.json");
+apiconf = require("./source/config/api.conf.json");
+
 db = new Database({
 	conn: dbconf.connection,
 	pathToSql: path.join(__dirname, "source", "sql")
 });
+
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+	db.connection.query("select * from user where foursq_id=?", [id], (err, users) => {
+		console.dir(err, users);
+		if(users == null) {
+			done(err, users[0]);
+		} else {
+			done(err, null);
+		}
+	});
+});
+
+passport.use(new FoursquareStrategy({
+	clientID: apiconf.foursquare.clientId,
+	clientSecret: apiconf.foursquare.clientSecret,
+	callbackURL: "http://localhost:3000/api/foursquare/callback"
+},
+	(access, refresh, profile, done) => {
+		console.log("access", access, "refresh", refresh, "profile", profile, "done", done);
+		done(null, profile);
+	}
+));
 
 fs.mkdirp(".session");
 db.init(() => {
@@ -47,6 +77,8 @@ db.init(() => {
 		resave: false,
 		saveUninitialized: false
 	}));
+	app.use(passport.initialize());
+	app.use(passport.session());
 	app.use(require('less-middleware')(path.join(__dirname, 'source', 'less'), {
 		dest: path.join(__dirname, 'public'),
 		preprocess: {
@@ -57,7 +89,8 @@ db.init(() => {
 	}));
 	app.use(express.static(path.join(__dirname, 'public')));
 
-	app.use(db.hook)
+	app.use(db.hook);
+
 	app.use('/', index);
 	app.use('/test', tests);
 	app.use('/api', api);

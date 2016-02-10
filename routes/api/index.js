@@ -1,8 +1,7 @@
 var express = require('express'),
     router = express.Router();
 
-router.get('/', function(req, res, next) {
-  
-});
-
-module.exports = router;
+module.exports = function(passport) {
+  router.use("/foursquare", require("./providers/foursquare")(passport));
+  return router;
+};
