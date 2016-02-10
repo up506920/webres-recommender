@@ -197,3 +197,19 @@ function DetermineDistance(coOrds1, coOrds2) {
 
   return d;
 }
+
+
+
+
+
+
+
+$("#yelptest").click(function(){
+
+$.get('yelptest', {placetype: $("#businessName").val(), location: "portsmouth"}, function(data){
+  $("#yelp").html(JSON.stringify(data));
+});
+
+
+
+});

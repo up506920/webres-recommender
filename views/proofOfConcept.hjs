@@ -22,7 +22,11 @@
   <button id="simulate">Simulate</button>
   </div>
   <div id="results"></div>
+  <label for="businessName">Get Yelp Data for Business:</label>
+  <input id="businessName" value="Diamond Chinese Takeaway"></input>
 
+  <button id="yelptest">Yelp Test</button>
+  <div id="yelp"></div>
 
 
   <script src="/js/jquery-2.2.0.js"></script>

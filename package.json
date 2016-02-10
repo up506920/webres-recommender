@@ -24,6 +24,7 @@
     "passport-foursquare": "^1.0.0",
     "q": "^1.4.1",
     "sanitize": "^2.0.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "yelp": "^1.0.1"
   }
 }
