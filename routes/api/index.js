@@ -9,8 +9,10 @@ var yelp = new Yelp({
   token_secret: 'RWdRpka4haqeCuazg7LUG2bcLbM',
 });
 
-
-
+module.exports = function(passport) {
+  router.use("/foursquare", require("./providers/foursquare")(passport));
+  return router;
+};
 
 router.get('/', function(req, res, next) {
   //Receive location coords from client
