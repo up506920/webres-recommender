@@ -1,16 +1,14 @@
 var userCoOrds;
-$(document).ready(function(){
-
-var userID = "1";
-
+window.onload = function(){
+  //Get from HTML.
+  var userID = "1";
   var recommendations = getRecommendations(userID, userCoOrds);
 
 
 
 
 
-
-});
+};
 
 
 function initMap() {
@@ -29,12 +27,8 @@ function initMap() {
         map: map,
         title: 'You are here'
     });
-      var infoWindow = new google.maps.InfoWindow({map: map});
-        infoWindow.setPosition(userCoOrds);
-        infoWindow.setContent('You are here');
-        map.setCenter(userCoOrds);
       }, function() {
-        handleLocationError(true, infoWindow, map.getCenter());
+
       });
     } else {
       // Browser doesn't support Geolocation
@@ -49,17 +43,37 @@ function initMap() {
     }
 function getRecommendations(userID, userCoOrds){
   var recommendations;
-  $.get('getRecommendations', {userID: $("#userID").val(), location: "portsmouth"}, function(data){
-    //$("#yelp").html(JSON.stringify(data));
+  $.get('getrecommendations/test', {userID: userID, lat: userCoOrds.lat, lng: userCoOrds.lng}, function(data){
+    var json = SortJson(data);
+    DisplayRecommendations(json);
   });
 
 
   return recommendations;
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, userCoOrds) {
-infoWindow.setPosition(userCoOrds);
-infoWindow.setContent(browserHasGeolocation ?
-                      'Error: The Geolocation service failed.' :
-                      'Error: Your browser doesn\'t support geolocation.');
+
+function SortJson(json) {
+  //Algorithm:
+  //If user preference - add score of 5000 (equivalent to a 5 star review)
+  //Add local popularity
+  //Add: Yelp score * 1000 (e.g. 2 star = 2000), added by the user modifier ((the distance from 2500)/1000 * number of reviews)
+
+  $.each(json, function(index, value) {
+    value.score += ((value.userPreference) ? 5000 : 0) + value.popularity + ((value.yelpStars * 1000) + ((value.yelpStars - 2.5) * value.yelpNo));
+  });
+
+  json.sort(function(a, b) {
+    return parseFloat(b.score) - parseFloat(a.score);
+  });
+
+  return json;
+}
+
+
+function DisplayRecommendations(json) {
+  $.each(json, function(index, value) {
+    $("#placesList").append("<div id='places'><a href='placeLink?id=" + value.placeID + "'><div id='place" + value.placeID + "'><div id='placesImg'><img src='img/placeholder.png' alt='logo'></div><table><tr><td id='nameCSS'>" + value.placeName + "</td><td id='distanceCSS'>" + value.distance + "</td><td id='ratingCSS'>" + value.yelpStars + "/5</td></tr><tr><td colspan='3' id='addressCSS'>" + value.address + "</td></tr><tr><td colspan='3' id='descriptionCSS'>" + value.description + "</td></tr></table></div></a></div>");
+  });
+  return true;
 }

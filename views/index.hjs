@@ -29,24 +29,8 @@
         <script async defer
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcNVkAZUueobny42EN0qu5FM5XOEMHRmI&callback=initMap">
         </script>
-        <a href="placeLink">
-        <div id="places">
-            <div id="placesImg">
-                <img src="img/placeholder.png" alt="LocaLikes Logo">
-            </div>
-            <table>
-                <tr>
-                    <td id="nameCSS">The Isambard Kingdom Brunel</td>
-                    <td id="distanceCSS">0.4 Miles</td>
-                    <td id="ratingCSS">3.2/5</td>
-                </tr>
-                <tr>
-                        <td colspan="3" id="addressCSS">2 Guildhall Walk, Portsmouth PO1 2DD</td>
-                </tr>
-                <tr>
-                    <td colspan="3" id="descriptionCSS">Striking family-friendly corner pub with a grand facade, upscale furnishings and licensed terrace.</td>
-                </tr>
-            </table>
+        <div id="placesList">
+
         </div>
     </body>
 </html>
