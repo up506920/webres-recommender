@@ -12,16 +12,41 @@
     </head>
     <body>
         <div id="heading">
-            <a href="index"><img src="img/logo.png" alt="LocaLikes Logo"></a>
-            <a href=""><p>User Settings</p></a>
+            <a href="/"><img src="img/logo.png" alt="LocaLikes Logo"></a>
+            <a href="/settings"><p>User Settings</p></a>
         </div>
 
         <div id="googleMap">
         </div>
         <script type="text/javascript">
-            function initMap() {
-            var currentLocation = {lat: 50.799059, lng: -1.098358};
-            var newLocation = {lat: 50.797182, lng: -1.092673};
+        var placeData = JSON.parse(place);
+        function initMap() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              userCoOrds = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+            var map = new google.maps.Map(document.getElementById('googleMap'), {
+                zoom: 14,
+                center: userCoOrds
+            });
+            var marker = new google.maps.Marker({
+                position: userCoOrds,
+                map: map,
+                title: 'You are here'
+            });
+              }, function() {
+
+              });
+            } else {
+              // Browser doesn't support Geolocation
+              // Default Portsmouth location
+              userCoOrds = {lat: 50.799059, lng: -1.098358};
+              map.setCenter(userCoOrds);
+            }
+
+            var newLocation = {lat: placeData.lat, lng: placeData.lng};
 
             var map = new google.maps.Map(document.getElementById('googleMap'), {
                 zoom: 14,
@@ -29,7 +54,7 @@
             });
 
             var currentMarker = new google.maps.Marker({position: currentLocation,map: map,title: 'Current Location'});
-            var newMarker = new google.maps.Marker({position:newLocation,map:map,title: 'new Location'});
+            var newMarker = new google.maps.Marker({position:newLocation,map:map,title: placeData.placeName});
             }
         </script>
         <script async defer

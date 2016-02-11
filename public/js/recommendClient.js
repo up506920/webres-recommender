@@ -1,5 +1,5 @@
 var userCoOrds;
-window.onload = function(){
+function recommend(){
   //Get from HTML.
   var userID = "1";
   var recommendations = getRecommendations(userID, userCoOrds);
@@ -22,6 +22,10 @@ function initMap() {
         zoom: 14,
         center: userCoOrds
     });
+    google.maps.event.addListenerOnce(map, 'idle', function(){
+    recommend();
+    });
+
     var marker = new google.maps.Marker({
         position: userCoOrds,
         map: map,
@@ -35,9 +39,7 @@ function initMap() {
       // Default Portsmouth location
       userCoOrds = {lat: 50.799059, lng: -1.098358};
       map.setCenter(userCoOrds);
-      handleLocationError(false, infoWindow, map.getCenter());
     }
-
 
 
     }

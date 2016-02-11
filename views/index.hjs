@@ -15,7 +15,7 @@
 
     <body>
         <div id="heading">
-            <a href=""><img src="img/logo.png" alt="LocaLikes Logo"></a>
+            <a href="/"><img src="img/logo.png" alt="LocaLikes Logo"></a>
             <a href=""><p>User Settings</p></a>
         </div>
 

@@ -9,7 +9,6 @@ var yelp = new Yelp({
   token_secret: 'RWdRpka4haqeCuazg7LUG2bcLbM',
 });
 
-
 router.get('/test', function(req, res, next) {
 var placeObj1 = {
   placeID: "1",
