@@ -8,8 +8,9 @@
 
         <link rel="stylesheet" media='screen and (max-width: 450px)' href="css/phone.css"/>
         <link rel="stylesheet" media='screen and (min-width: 451px)' href="css/computer.css"/>
-
+        <script src="/js/jquery-2.2.0.js"></script>
         <script src="http://maps.googleapis.com/maps/api/js"></script>
+        <script type="text/javascript" src="js/recommendClient.js"></script>
     </head>
 
     <body>
@@ -21,22 +22,10 @@
         <div id="googleMap">
 
         </div>
-        <script type="text/javascript">
-        function initMap() {
-            var currentLocation = {lat: 50.799059, lng: -1.098358};
+<script>
 
-            var map = new google.maps.Map(document.getElementById('googleMap'), {
-                zoom: 14,
-                center: currentLocation
-            });
+</script>
 
-            var marker = new google.maps.Marker({
-                position: currentLocation,
-                map: map,
-                title: 'Hello World!'
-            });
-            }
-        </script>
         <script async defer
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcNVkAZUueobny42EN0qu5FM5XOEMHRmI&callback=initMap">
         </script>
