@@ -94,7 +94,7 @@ a{
 #locationbutton{
     background-color:transparent;
     border:0px;
-    margin-left:5%; 
+    margin-left:5%;
     margin-top:1%;
     text-decoration:underline;
 }
@@ -102,7 +102,7 @@ a{
 #locationbutton2{
     background-color:transparent;
     border:0px;
-    margin-left:5%; 
+    margin-left:5%;
     margin-top:1%;
     text-decoration:underline;
     display:none;
@@ -111,7 +111,7 @@ a{
 #directionsbutton{
     background-color:transparent;
     border:0px;
-    margin-left:5%; 
+    margin-left:5%;
     margin-top:1%;
     text-decoration:underline;
 }
@@ -119,7 +119,7 @@ a{
 #directionsbutton2{
     background-color:transparent;
     border:0px;
-    margin-left:5%; 
+    margin-left:5%;
     margin-top:1%;
     text-decoration:underline;
     display:none;
@@ -128,7 +128,7 @@ a{
 #reviewsbutton{
     background-color:transparent;
     border:0px;
-    margin-left:5%; 
+    margin-left:5%;
     margin-top:1%;
     text-decoration:underline;
 }
@@ -136,15 +136,12 @@ a{
 #reviewsbutton2{
     background-color:transparent;
     border:0px;
-    margin-left:5%; 
+    margin-left:5%;
     margin-top:1%;
     text-decoration:underline;
     display:none;
 }
 
-#location{
-    display:none;
-}
 
 #directions{
     display:none;
