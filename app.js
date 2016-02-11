@@ -12,13 +12,10 @@ var express = require('express'),
 
 		index = require('./routes/index'),
 		tests = require('./routes/testing'),
-<<<<<<< HEAD
 		test2 = require('./routes/yelptesting'),
 		recommender = require('./routes/recommender'),
-		api = require('./routes/api/index'),
-=======
 		api = require('./routes/api/index')(passport),
->>>>>>> origin/master
+
 
 		Database = require("./local_modules/database"),
 		configCheck = require("./local_modules/configcheck"),
@@ -101,7 +98,7 @@ db.init(() => {
 	app.use('/test', tests);
 	app.use('/api', api);
 	app.use('/test', test2);
-	app.use('/api', getrecommendations);
+	app.use('/getrecommendations', recommender);
 
 	// catch 404 and forward to error handler
 	app.use(function(req, res, next) {

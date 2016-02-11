@@ -1,12 +1,63 @@
 <!DOCTYPE html>
+
 <html>
-  <head>
-    <title>{{ title }}</title>
-    <link rel='stylesheet' href='/css/style.css' />
-  </head>
-  <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
-    <a href="/api/foursquare/auth">DO THE 4SQ THING</a>
-  </body>
+    <head>
+        <title>LocaLikes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" media='screen and (max-width: 450px)' href="css/phone.css"/>
+        <link rel="stylesheet" media='screen and (min-width: 451px)' href="css/computer.css"/>
+
+        <script src="http://maps.googleapis.com/maps/api/js"></script>
+    </head>
+
+    <body>
+        <div id="heading">
+            <a href=""><img src="img/logo.png" alt="LocaLikes Logo"></a>
+            <a href=""><p>User Settings</p></a>
+        </div>
+
+        <div id="googleMap">
+
+        </div>
+        <script type="text/javascript">
+        function initMap() {
+            var currentLocation = {lat: 50.799059, lng: -1.098358};
+
+            var map = new google.maps.Map(document.getElementById('googleMap'), {
+                zoom: 14,
+                center: currentLocation
+            });
+
+            var marker = new google.maps.Marker({
+                position: currentLocation,
+                map: map,
+                title: 'Hello World!'
+            });
+            }
+        </script>
+        <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcNVkAZUueobny42EN0qu5FM5XOEMHRmI&callback=initMap">
+        </script>
+        <a href="placeLink">
+        <div id="places">
+            <div id="placesImg">
+                <img src="img/placeholder.png" alt="LocaLikes Logo">
+            </div>
+            <table>
+                <tr>
+                    <td id="nameCSS">The Isambard Kingdom Brunel</td>
+                    <td id="distanceCSS">0.4 Miles</td>
+                    <td id="ratingCSS">3.2/5</td>
+                </tr>
+                <tr>
+                        <td colspan="3" id="addressCSS">2 Guildhall Walk, Portsmouth PO1 2DD</td>
+                </tr>
+                <tr>
+                    <td colspan="3" id="descriptionCSS">Striking family-friendly corner pub with a grand facade, upscale furnishings and licensed terrace.</td>
+                </tr>
+            </table>
+        </div>
+    </body>
 </html>

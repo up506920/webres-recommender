@@ -6,6 +6,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/placeLink', function(req, res, next) {
+  res.render('placeLink', { title: 'Place' });
+});
+
 //Send Location coords
 
 //Get closest location to coords (with a city != null) from 4Square

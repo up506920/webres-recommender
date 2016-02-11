@@ -1,0 +1,166 @@
+body{
+    margin:0;
+    padding:0;
+    background-color:#EDD1A1;
+}
+
+#heading{
+    margin-top:0;
+    padding:0;
+    background-color:#771100;
+    height:50px;
+    width:100%;
+}
+
+#heading img{
+    width:50%;
+    margin-top:10px;
+    margin-left:10%;
+}
+
+#heading p{
+    float:right;
+    padding-right: 10%;
+    padding-top:0;
+    color:#FFFFFF;
+}
+
+#googleMap{
+    width:100%;
+    height:200px;
+}
+
+#places{
+    width:94%;
+    height:100px;
+    margin:auto;
+    margin-top:3%;
+    border:2px solid #FFFFFF;
+    border-style:double;
+    background-color:#172A2D;
+}
+
+#placesImg{
+    float:left;
+    width:15%;
+    height:100%;
+    colour:black;
+}
+
+#placesImg img{
+    width:100%;
+    margin-left:15%;
+    margin-top:65%;
+}
+
+#places table{
+    float:right;
+    width:80%;
+    margin-top:5%;
+}
+
+#nameCSS{
+    height:5px;
+    width:60%;
+    font-size:10px;
+    text-decoration:underline;
+}
+
+#distanceCSS{
+    height:5px;
+    width:20%;
+    font-size:10px;
+}
+
+#ratingCSS{
+    height:5px;
+    width:20%;
+    font-size:12px;
+}
+
+#addressCSS{
+    height:10px;
+    font-size:10px;
+}
+
+#descriptionCSS{
+    font-size: 10px;
+}
+
+a{
+    color:#FFFFFF;
+}
+
+#locationbutton{
+    background-color:transparent;
+    border:0px;
+    margin-left:5%; 
+    margin-top:1%;
+    text-decoration:underline;
+}
+
+#locationbutton2{
+    background-color:transparent;
+    border:0px;
+    margin-left:5%; 
+    margin-top:1%;
+    text-decoration:underline;
+    display:none;
+}
+
+#directionsbutton{
+    background-color:transparent;
+    border:0px;
+    margin-left:5%; 
+    margin-top:1%;
+    text-decoration:underline;
+}
+
+#directionsbutton2{
+    background-color:transparent;
+    border:0px;
+    margin-left:5%; 
+    margin-top:1%;
+    text-decoration:underline;
+    display:none;
+}
+
+#reviewsbutton{
+    background-color:transparent;
+    border:0px;
+    margin-left:5%; 
+    margin-top:1%;
+    text-decoration:underline;
+}
+
+#reviewsbutton2{
+    background-color:transparent;
+    border:0px;
+    margin-left:5%; 
+    margin-top:1%;
+    text-decoration:underline;
+    display:none;
+}
+
+#location{
+    display:none;
+}
+
+#directions{
+    display:none;
+}
+
+#reviews{
+    display:none;
+}
+
+#places2{
+ width:96%;
+ margin:auto;
+ position:relative;
+}
+
+#places2 img{
+    width:20%;
+    float: left;
+}

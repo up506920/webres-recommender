@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>LocaLikes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" media='screen and (max-width: 450px)' href="css/phone.css"/>
+        <link rel="stylesheet" media='screen and (min-width: 451px)' href="css/computer.css"/>
+
+        <script src="http://maps.googleapis.com/maps/api/js"></script>
+
+    </head>
+    <body>
+        <div id="heading">
+            <a href="index"><img src="img/logo.png" alt="LocaLikes Logo"></a>
+            <a href=""><p>User Settings</p></a>
+        </div>
+
+        <div id="googleMap">
+        </div>
+        <script type="text/javascript">
+            function initMap() {
+            var currentLocation = {lat: 50.799059, lng: -1.098358};
+            var newLocation = {lat: 50.797182, lng: -1.092673};
+
+            var map = new google.maps.Map(document.getElementById('googleMap'), {
+                zoom: 14,
+                center: currentLocation
+            });
+
+            var currentMarker = new google.maps.Marker({position: currentLocation,map: map,title: 'Current Location'});
+            var newMarker = new google.maps.Marker({position:newLocation,map:map,title: 'new Location'});
+            }
+        </script>
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcNVkAZUueobny42EN0qu5FM5XOEMHRmI&callback=initMap">
+        </script>
+
+        <div id="locationButton"><input type="button" value="Show Location" id="locationClick" onclick="showLocation()"/></div>
+        <div id="locationButton2"><input type="button" value="Hide Location" id="locationClick2" onclick="hideLocation()"/></div>
+        <div id="location">
+            <div id="places2">
+                <div id=""placeLinkLeft>
+                    <img src="img/placeholder.png" alt="LocaLikes Logo">
+                </div>
+                <div id="placeLingRight">
+                    <p>The Isambard Kingdom Brunel</p>
+                </div>
+                    <p>0.4 Miles</p>
+                    <p>3.4/5</p>
+                    <p>2 Guildhall Walk, Portsmouth PO1 2DD<p>
+                    <p>Striking family-friendly corner pub with a grand facade, upscale furnishings and licensed terrace.</p>
+            </div>
+        </div>
+        <hr>
+
+        <div id="directionsButton"><input type="button" value="Show Directions" id="directionsClick" onclick="showDirections()"/></div>
+        <div id="directionsButton2"><input type="button" value="Hide Directions" id="directionsClick2" onclick="hideDirections()"/></div>
+        <div id="directions" ><p>yo</p></div>
+        <hr>
+
+        <div id="reviewsButton"><input type="button" value="Show Reviews" id="reviewsClick" onclick="showReviews()"/></div>
+        <div id="reviewsButton2"><input type="button" value="Hide Reviews" id="reviewsClick2" onclick="hideReviews()"/></div>
+        <div id="reviews" ><p>yo</p></div>
+        <hr>
+        <script src="/js/jquery-2.2.0.js"></script>
+        <script src="js/hideDivs.js"></script>
+    </body>
+</html>

@@ -31,6 +31,7 @@ router.get('/getrecommendations', function(req, res, next) {
   //Find places that are in the categoryID and sort by distance from location, where city is not null
 
   //Get list of user's preferences from DB and join them to list of places from 4square
+  var fourSquarePlaceList;
   for(i=0; i<fourSquarePlaceList.length-1; i++)
   {
     for(x=0; x<userPreferencesPlaceList.length-1; x++)
@@ -61,7 +62,7 @@ router.get('/getrecommendations', function(req, res, next) {
           fourSquarePlaceList[i].yelpNo = data.businesses[x].review_count;
         }
       }
-    }
+    });
   }
 
   //Send JSON array of objects in this format to client:
@@ -82,3 +83,4 @@ res.send(fourSquarePlaceList);
 
 //Client ranks and displays the data
 });
+module.exports = router;
