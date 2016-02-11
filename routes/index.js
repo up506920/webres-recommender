@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var app = express();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -21,9 +21,10 @@ router.get('/placeLink', function(req, res, next) {
     IMG: "",
     address: ["218 London Road", "Portsmouth PO2 9JQ", "UK"],
     userPreference: true,
-    coOrds: [50.796437, -1.067415]
+    coOrds: {lat: 50.796437, lng: -1.067415}
   };
-  res.render('placeLink', { place: place });
+
+  res.render('placeLink.hjs', { place: JSON.stringify(place) });
 });
 
 //Send Location coords
