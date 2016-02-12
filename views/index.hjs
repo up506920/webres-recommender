@@ -6,8 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" media='screen and (max-width: 450px)' href="css/phone.css"/>
-        <link rel="stylesheet" media='screen and (min-width: 451px)' href="css/computer.css"/>
+        <link rel="stylesheet" media='screen' href="css/phone.css"/>
         <script src="/js/jquery-2.2.0.js"></script>
         <script src="http://maps.googleapis.com/maps/api/js"></script>
         <script type="text/javascript" src="js/recommendClient.js"></script>

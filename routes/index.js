@@ -8,6 +8,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/placeLink', function(req, res, next) {
   //Get data on place from DB from the place ID, populate JSON into var "place"
+
+//TEST DATA:
   var place = {
     placeID: "1",
     placeName: "McDonalds",
@@ -23,6 +25,9 @@ router.get('/placeLink', function(req, res, next) {
     userPreference: true,
     coOrds: {lat: 50.796437, lng: -1.067415}
   };
+
+
+
 
   res.render('placeLink.hjs', { place: JSON.stringify(place) });
 });
