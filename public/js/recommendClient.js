@@ -45,7 +45,7 @@ function initMap() {
     }
 function getRecommendations(userID, userCoOrds){
   var recommendations;
-  $.get('getrecommendations/test', {userID: userID, lat: userCoOrds.lat, lng: userCoOrds.lng}, function(data){
+  $.get('getrecommendations', {userID: userID, lat: userCoOrds.lat, lng: userCoOrds.lng}, function(data){
     var json = SortJson(data);
     DisplayRecommendations(json);
   });
@@ -75,7 +75,7 @@ function SortJson(json) {
 
 function DisplayRecommendations(json) {
   $.each(json, function(index, value) {
-    $("#placesList").append("<div id='places'><a href='placeLink?id=" + value.placeID + "'><div id='place" + value.placeID + "'><div id='placesImg'><img src='img/placeholder.png' alt='logo'></div><table><tr><td id='nameCSS'>" + value.placeName + "</td><td id='distanceCSS'>" + value.distance + "</td><td id='ratingCSS'>" + value.yelpStars + "/5</td></tr><tr><td colspan='3' id='addressCSS'>" + value.address + "</td></tr><tr><td colspan='3' id='descriptionCSS'>" + value.description + "</td></tr></table></div></a></div>");
+    $("#placesList").append("<div id='places'><a href='placeLink?id=" + value.placeID + "'><div id='place" + value.placeID + "'><div id='placesImg'><img src='img/placeholder.png' alt='logo'></div><table><tr><td id='nameCSS'>" + value.placeName + "</td><td id='distanceCSS'>" + value.distance/100 + "KM away</td><td id='ratingCSS'>" + value.yelpStars + "/5</td></tr><tr><td colspan='3' id='addressCSS'>" + value.address + "</td></tr><tr><td colspan='3' id='descriptionCSS'>No description available</td></tr></table></div></a></div>");
   });
   return true;
 }
