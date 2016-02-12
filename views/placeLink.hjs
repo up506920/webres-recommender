@@ -19,15 +19,18 @@
         <div id="googleMap">
         </div>
         <script type="text/javascript">
+        var userCoOrds;
         var placeData = {{{ place }}};
+
         $(document).ready(function(){
           $("#placeName").append(placeData.placeName);
-          $("#distance").append(placeData.distance + "km");
-          $("#yelpStars").append(placeData.yelpStars + "/5");
+          $("#placeLinkLeft").html("<img src='" + placeData.IMG + "' alt='Logo'>");
+          $("#yelpStars").append("<p>Your score for this location: " + placeData.score + "</p>");
           $("#address").append(placeData.address);
           $("#description").append(placeData.description);
 
         })
+
         function initMap() {
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -35,10 +38,12 @@
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
               };
+                $("#distance").append(DetermineDistance([userCoOrds.lat, userCoOrds.lng], [placeData.coOrds.lat, placeData.coOrds.lng]) + "km");
             var map = new google.maps.Map(document.getElementById('googleMap'), {
                 zoom: 14,
                 center: userCoOrds
             });
+
             var currentMarker = new google.maps.Marker({position: userCoOrds,map: map,title: 'Current Location'});
             var newMarker = new google.maps.Marker({position: placeData.coOrds,map:map,title: placeData.placeName});
               }, function() {
@@ -51,11 +56,43 @@
               map.setCenter(userCoOrds);
               var currentMarker = new google.maps.Marker({position: userCoOrds,map: map,title: 'Current Location'});
               var newMarker = new google.maps.Marker({position: placeData.coOrds,map:map,title: placeData.placeName});
+
+}
+
+            }
+
+            function DetermineDistance(coOrds1, coOrds2) {
+              //Adapted from http://www.movable-type.co.uk/scripts/latlong.html
+              //Code originally written by Chris Veness 2002-2015
+
+              //Gets distance between 2 coordinates
+              //coOrds1 and 2 are arrays, [0] accesses lat, [1] accesses lon.
+              //RETURNS distance in METRES
+
+
+              if (Number.prototype.toRadians === undefined) {
+                Number.prototype.toRadians = function() {
+                  return this * Math.PI / 180;
+                };
+              }
+              var R = 6371000; // metres
+              var φ1 = coOrds1[0].toRadians();
+              var φ2 = coOrds2[0].toRadians();
+              var Δφ = (coOrds2[0] - coOrds1[0]).toRadians();
+              var Δλ = (coOrds2[1] - coOrds1[1]).toRadians();
+
+              var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+              var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+              var d = R * c;
+
+              return (d/1000).toFixed(2);
             }
 
 
 
-            }
         </script>
         <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcNVkAZUueobny42EN0qu5FM5XOEMHRmI&callback=initMap">
@@ -65,7 +102,7 @@
         <div id="locationButton2"><input type="button" value="Hide Location" id="locationClick2" onclick="hideLocation()"/></div>
         <div id="location">
             <div id="places2">
-                <div id=""placeLinkLeft>
+                <div id="placeLinkLeft">
                     <img src="img/placeholder.png" alt="LocaLikes Logo">
                 </div>
                 <div id="placeLingRight">

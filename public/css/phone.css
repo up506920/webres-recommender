@@ -6,7 +6,9 @@ body{
     border: 2px solid black;
     border-style: double;
 }
-
+#places2{
+  text-align:right;
+}
 #heading{
     margin-top:0;
     padding:0;

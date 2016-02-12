@@ -116,9 +116,10 @@ router.get('/', function(req, res, next) {
   var yelpData;
   var latitude = val.lat;
   var longitude = val.lng;
-
+  //fast food: 4bf58dd8d48988d16e941735
+  //pub: 4bf58dd8d48988d11b941735
   //Get closest location to coords (with a city != null) from 4Square
-  var url = "https://api.foursquare.com/v2/venues/search?ll=" + val.lat + "," + val.lng + "&categoryId=4bf58dd8d48988d11b941735&client_id=13XIETMTGP1MX4HKZSFWJ1QNES422NIMFAZKTTRMRPLF05ZY&client_secret=3U2KZIYMDVXENYCEN11IOW1XN1Y2AVAXNW5QOHI5QTECR03A&v=20150212";
+  var url = "https://api.foursquare.com/v2/venues/explore?ll=" + val.lat + "," + val.lng + "&limit=50&radius=2000&query=pub&sortByDistance=1&categoryId=4bf58dd8d48988d11b941735&client_id=13XIETMTGP1MX4HKZSFWJ1QNES422NIMFAZKTTRMRPLF05ZY&client_secret=3U2KZIYMDVXENYCEN11IOW1XN1Y2AVAXNW5QOHI5QTECR03A&v=20150212";
   request({
     url:url,
     json: true
@@ -126,14 +127,14 @@ router.get('/', function(req, res, next) {
 
     if(!error && response.statusCode === 200){
       console.log("response code received");
-      var fourSquarePlaceList = body.response.venues;
-      var userPreferencesPlaceList = [{name: "McDonalds", dislike: false}, {name: "KFC", dislike: false}, {name: "Burger King", dislike: true}];
+      var fourSquarePlaceList = body.response.groups[0].items;
+      var userPreferencesPlaceList = [{name: "McDonalds", dislike: false}, {name: "The Deco", dislike: false}, {name: "Burger King", dislike: true}];
 
 
         for(i=0; i<fourSquarePlaceList.length-1; i++)
         {
                 console.log("outer loop " + i);
-                if(typeof fourSquarePlaceList[i].location.city === 'undefined' || fourSquarePlaceList[i].location.city == null){
+                if(typeof fourSquarePlaceList[i].venue.location.city === 'undefined' || fourSquarePlaceList[i].venue.location.city == null){
 
                 fourSquarePlaceList.splice(i, 1);
                 break;
@@ -141,7 +142,7 @@ router.get('/', function(req, res, next) {
           for(x=0; x<userPreferencesPlaceList.length-1; x++)
           {
                   console.log("inner loop " + x);
-            if(fourSquarePlaceList[i].name.toLowerCase() == userPreferencesPlaceList[x].name.toLowerCase())
+            if(fourSquarePlaceList[i].venue.name.toLowerCase() == userPreferencesPlaceList[x].name.toLowerCase())
             {
               console.log("user pref loop " + i + " " + x);
               if(userPreferencesPlaceList[x].dislike == true){
@@ -149,7 +150,7 @@ router.get('/', function(req, res, next) {
                 fourSquarePlaceList.splice(i, 1);
                 break;
               }
-              fourSquarePlaceList[i].preference = true;
+              fourSquarePlaceList[i].venue.preference = true;
             }
 
           }
@@ -158,49 +159,84 @@ router.get('/', function(req, res, next) {
         var newObj = new Object();
         var newList = [];
         var yelpList;
+        var found;
         //Get Yelp stars and number of reviews for each place
-        yelp.search({term: "pub", ll: fourSquarePlaceList[i].location.lat + "," + fourSquarePlaceList[i].location.lng, sort: 1 })
+        yelp.search({term: "pub", ll: fourSquarePlaceList[i].venue.location.lat + "," + fourSquarePlaceList[i].venue.location.lng, radius_filter: 2000, sort: 1 })
         .then(function (data) {
           console.log("GOT YELP STUFF");
           yelpList = data;
           for(i=0; i<fourSquarePlaceList.length-1; i++)
           {
+            if(typeof fourSquarePlaceList[i].venue.preference === 'undefined'){
+              fourSquarePlaceList[i].venue.preference = false;
+            }
             console.log(i);
-            console.log(fourSquarePlaceList[i]);
+            console.log(fourSquarePlaceList[i].venue);
               for(x=0; x<yelpList.businesses.length-1; x++){
                 console.log("comparison loop " + i + " " + x + " ");
-                console.log(yelpList.businesses[x].name.toLowerCase() + " vs " + fourSquarePlaceList[i].name.toLowerCase());
-                if(yelpList.businesses[x].name.toLowerCase() == fourSquarePlaceList[i].name.toLowerCase())
+                console.log(yelpList.businesses[x].name.substring(0,4).toLowerCase());
+                if(yelpList.businesses[x].name.substring(0,4).toLowerCase() == "the "){
+                  console.log("deleting 'the' from " +  yelpList.businesses[x].name);
+                  yelpList.businesses[x].name = yelpList.businesses[x].name.substring(4);
+                }
+                console.log(fourSquarePlaceList[i].venue.name.substring(0,3).toLowerCase() == "the");
+                console.log(yelpList.businesses[x].name.toLowerCase() + " vs " + fourSquarePlaceList[i].venue.name.toLowerCase());
+                if(fourSquarePlaceList[i].venue.name.substring(0,3).toLowerCase() == "the"){
+                  if (!placeExists(fourSquarePlaceList[i].venue.id)) {
+                  newList.push({
+                    placeID: fourSquarePlaceList[i].venue.id,
+                    placeName: fourSquarePlaceList[i].venue.name,
+                    category: fourSquarePlaceList[i].venue.categories[0].shortName,
+                    popularity: fourSquarePlaceList[i].venue.stats.checkinsCount,
+                    yelpStars: yelpList.businesses[x].rating,
+                    yelpNo: yelpList.businesses[x].review_count,
+                    distance: fourSquarePlaceList[i].venue.location.distance,
+                    description: fourSquarePlaceList[i].venue.categories.name,
+                    IMG: "",
+                    address: yelpList.businesses[x].location.display_address,
+                    userPreference: fourSquarePlaceList[i].venue.preference,
+                    coOrds: {lat: fourSquarePlaceList[i].venue.location.lat, lng: fourSquarePlaceList[i].venue.location.lng}
+                  });
+                }
+                }
+                if(fourSquarePlaceList[i].venue.name.toLowerCase().indexOf(yelpList.businesses[x].name.substring(0,3).toLowerCase()) > -1)
                 {
-                  console.log("adding object " + fourSquarePlaceList[i].name);
-                  newObj.placeID = fourSquarePlaceList[i].id;
-                  console.log(newObj.placeID);
-                  newObj.placeName = fourSquarePlaceList[i].name;
-                  newObj.category = fourSquarePlaceList[i].categories[0].shortName;
-                  newObj.popularity = fourSquarePlaceList[i].stats.checkinsCount;
-                  newObj.yelpStars = yelpList.businesses[x].rating;
-                  newObj.yelpNo = yelpList.businesses[x].review_count;
-                  newObj.distance = fourSquarePlaceList[i].location.distance;
-                  newObj.description = fourSquarePlaceList[i].categories.name; //placeholder
-                  newObj.IMG = "";
-                  newObj.address = yelpList.businesses[x].location.display_address;
-                  if(typeof fourSquarePlaceList[i].preference === 'undefined'){
-                    newObj.userPreference = false;
-                  }
-                  else{
-                    newObj.userPreference = fourSquarePlaceList[i].preference;
-                  }
-                    newObj.coOrds = {lat: fourSquarePlaceList[i].location.lat, lng: fourSquarePlaceList[i].location.lng}
-                    console.log(newObj);
-                  newList.push(newObj);
-                  console.log(newList);
+                if (!placeExists(fourSquarePlaceList[i].venue.id)) {
+                  newList.push({
+                    placeID: fourSquarePlaceList[i].venue.id,
+                    placeName: fourSquarePlaceList[i].venue.name,
+                    category: fourSquarePlaceList[i].venue.categories[0].shortName,
+                    popularity: fourSquarePlaceList[i].venue.stats.checkinsCount,
+                    yelpStars: yelpList.businesses[x].rating,
+                    yelpNo: yelpList.businesses[x].review_count,
+                    distance: fourSquarePlaceList[i].venue.location.distance,
+                    description: fourSquarePlaceList[i].venue.categories.name,
+                    IMG: "",
+                    address: yelpList.businesses[x].location.display_address,
+                    userPreference: fourSquarePlaceList[i].venue.preference,
+                    coOrds: {lat: fourSquarePlaceList[i].venue.location.lat, lng: fourSquarePlaceList[i].venue.location.lng}
+                  });
+                }
+
+                    //console.log(newObj);
+
+
+              }
+
+                  //console.log(newList);
                 }
               }
-          }
+
                 console.log(newList);
                 res.send(newList);
         });
 
+
+        function placeExists(placeID) {
+          return newList.some(function(el) {
+            return el.placeID === placeID;
+          });
+        }
 
 
         //Send JSON array of objects in this format to client:
@@ -246,15 +282,3 @@ router.get('/', function(req, res, next) {
 //Client ranks and displays the data
 });
 module.exports = router;
-
-function dynamicSort(property) {
-    var sortOrder = 1;
-    if(property[0] === "-") {
-        sortOrder = -1;
-        property = property.substr(1);
-    }
-    return function (a,b) {
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
-    }
-}

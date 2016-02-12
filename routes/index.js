@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 var app = express();
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,7 +10,34 @@ router.get('/', function(req, res, next) {
 router.get('/placeLink', function(req, res, next) {
   //Get data on place from DB from the place ID, populate JSON into var "place"
 
-//TEST DATA:
+  var url = "https://api.foursquare.com/v2/venues/" + req.query.id + "?client_id=13XIETMTGP1MX4HKZSFWJ1QNES422NIMFAZKTTRMRPLF05ZY&client_secret=3U2KZIYMDVXENYCEN11IOW1XN1Y2AVAXNW5QOHI5QTECR03A&v=20150212";
+  request({
+    url:url,
+    json: true
+  }, function (error, response, body) {
+
+    if(!error && response.statusCode === 200){
+      var venue = body.response.venue;
+      var place = {
+        placeID: venue.id,
+        placeName: venue.name,
+        category: venue.categories[0].name,
+        description: "Test",
+        IMG: venue.photos.groups[0].items[0].prefix+"300x300"+venue.photos.groups[0].items[0].suffix,
+        address: venue.location.formattedAddress,
+        score: req.query.score,
+        coOrds: {lat: venue.location.lat, lng: venue.location.lng}
+      };
+
+
+  res.render('placeLink.hjs', { place: JSON.stringify(place) });
+}
+});
+
+});
+
+//Send Location coords
+/*
   var place = {
     placeID: "1",
     placeName: "McDonalds",
@@ -24,16 +52,7 @@ router.get('/placeLink', function(req, res, next) {
     address: ["218 London Road", "Portsmouth PO2 9JQ", "UK"],
     userPreference: true,
     coOrds: {lat: 50.796437, lng: -1.067415}
-  };
-
-
-
-
-  res.render('placeLink.hjs', { place: JSON.stringify(place) });
-});
-
-//Send Location coords
-
+  };*/
 //Get closest location to coords (with a city != null) from 4Square
 //Add to place table and add +1 to visited
 //Add to Sequence, and add to sequence end on the latest start by user

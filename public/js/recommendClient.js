@@ -62,6 +62,7 @@ function SortJson(json) {
   //Add: Yelp score * 1000 (e.g. 2 star = 2000), added by the user modifier ((the distance from 2500)/1000 * number of reviews)
 
   $.each(json, function(index, value) {
+    value.score = 0;
     value.score += ((value.userPreference) ? 5000 : 0) + value.popularity + ((value.yelpStars * 1000) + ((value.yelpStars - 2.5) * value.yelpNo));
   });
 
@@ -74,8 +75,14 @@ function SortJson(json) {
 
 
 function DisplayRecommendations(json) {
+  count = 0;
   $.each(json, function(index, value) {
-    $("#placesList").append("<div id='places'><a href='placeLink?id=" + value.placeID + "'><div id='place" + value.placeID + "'><div id='placesImg'><img src='img/placeholder.png' alt='logo'></div><table><tr><td id='nameCSS'>" + value.placeName + "</td><td id='distanceCSS'>" + value.distance/100 + "KM away</td><td id='ratingCSS'>" + value.yelpStars + "/5</td></tr><tr><td colspan='3' id='addressCSS'>" + value.address + "</td></tr><tr><td colspan='3' id='descriptionCSS'>No description available</td></tr></table></div></a></div>");
+    count++;
+      $("#placesList").append("<div id='places'><a href='placeLink?id=" + value.placeID + "&score=" + value.score + "'><div id='place" + value.placeID + "'><div id='placesImg'><img src='img/placeholder.png' alt='logo'></div><table><tr><td id='nameCSS'>" + value.placeName + "</td><td id='distanceCSS'>" + value.distance/1000 + "KM away</td><td id='ratingCSS'>" + value.yelpStars + "/5</td></tr><tr><td colspan='3' id='addressCSS'>" + value.address + "</td></tr><tr><td colspan='3' id='descriptionCSS'>No description available</td></tr></table></div></a></div>");
+      if(count > 10)
+      {
+        return false;
+      }
   });
   return true;
 }
