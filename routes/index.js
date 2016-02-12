@@ -45,15 +45,20 @@ router.get('/placeLink', function(req, res, next) {
 
 //Send JSON array of objects in this format to client:
 /*
-{
-	placeName: "McDonalds",
-        category: "Food",
-        popularity: 50,
-        yelpStars: 4.3,
-        yelpNo: 200,
-        userPreference: true,
-	coOrds: [50.796437, -1.067415]
-}
+{  var place = {
+    placeID: "1",
+    placeName: "McDonalds",
+    category: "Food",
+    popularity: 50, *****(how often people have been there in our DB)
+    yelpStars: 4.3,
+    yelpNo: 200, *****(number of reviews on yelp)
+    distance: 20,
+    description: "Test",
+    IMG: "",
+    address: ["218 London Road", "Portsmouth PO2 9JQ", "UK"],
+    userPreference: true, *****(if the user has indicated that they like the place)
+    coOrds: {lat: 50.796437, lng: -1.067415}
+  };
 */
 
 //Client ranks and displays
